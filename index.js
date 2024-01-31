@@ -20,7 +20,7 @@ db.connect((err)=>{
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.set('views',path.join(__dirname,'views'))
+app.set('views','./views')
 app.set("view engine", "ejs");
 
 let currentUserId = 1;
