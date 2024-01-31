@@ -1,16 +1,16 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from 'pg';
-import path from 'path';
+// import path from 'path';
 // import {} from 'dotenv/config';
 const app = express();
-import {URL} from 'url';
+// import {URL} from 'url';
 const port = process.env.PORT || 3000;
 
 
 const { Pool } = pg;
 const db = new Pool({
-  connectionString: "postgres://default:6GJfwSCp8LHr@ep-dawn-bar-77210014-pooler.us-east-1.postgres.vercel-storage.com:5432/verceldb"+ "?sslmode=require",
+  connectionString: process.env.POSTGRES_URL+ "?sslmode=require",
 })
 
 db.connect(err=>{
