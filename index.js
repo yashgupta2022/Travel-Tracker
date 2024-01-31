@@ -1,30 +1,29 @@
 import express from "express";
-import path from 'path';
-import { fileURLToPath } from 'url';
 import bodyParser from "body-parser";
 import pg from 'pg';
-import {} from 'dotenv/config';
+// import {} from 'dotenv/config';
 const app = express();
+
 const port = process.env.PORT || 3000;
 
 
 const { Pool } = pg;
 const db = new Pool({
-  connectionString: process.env.POSTGRES_URL + "?sslmode=require",
+  connectionString: "postgres://default:6GJfwSCp8LHr@ep-dawn-bar-77210014-pooler.us-east-1.postgres.vercel-storage.com:5432/verceldb"+ "?sslmode=require",
 })
 
-db.connect((err)=>{
-  if (err) throw err;
-  console.log("Connected to database")
+db.connect(err=>{
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("connected");
+  }
 })
 
-const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
-const __dirname = path.dirname(__filename); // get the name of the directory
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
 app.use(express.static("public"));
+app.set("view engine", "ejs");
 
 
 let currentUserId = 1;
@@ -56,11 +55,11 @@ app.get("/", async (req, res) => {
   const countries = await checkVisisted();
   const currentUser = await getCurrentUser();
   if (users.length === 0) {
-    res.render("new");
+    res.render("new.ejs");
   }
   
   else{
-    res.render("index", {
+    res.render("index.ejs", {
       countries: countries,
       total: countries.length,
       users: users,
@@ -99,7 +98,7 @@ app.post("/add", async (req, res) => {
 
 app.post("/user", async (req, res) => {
   if (req.body.add === "new") {
-    res.render("new");
+    res.render("new.ejs");
   } else {
     currentUserId = req.body.user;
     res.redirect("/");
