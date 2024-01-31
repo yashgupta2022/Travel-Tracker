@@ -1,9 +1,10 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from 'pg';
+import path from 'path';
 // import {} from 'dotenv/config';
 const app = express();
-
+import {URL} from 'url';
 const port = process.env.PORT || 3000;
 
 
@@ -20,9 +21,12 @@ db.connect(err=>{
   }
 })
 
+const __dirname = decodeURI(new URL(import.meta.url).pathname)
+console.log(__dirname)
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
 
 
