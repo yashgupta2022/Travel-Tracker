@@ -21,12 +21,8 @@ db.connect(err=>{
   }
 })
 
-const __dirname = decodeURI(new URL(import.meta.url).pathname)
-console.log(__dirname)
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
 
 
