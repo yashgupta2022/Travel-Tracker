@@ -1,18 +1,20 @@
 import express from "express";
 import bodyParser from "body-parser";
-import pg from "pg";
+import {Pool} from "pg";
 const app = express();
-const port = 3000;
+require("dotenv").config();
+const port = process.env.PORT || 3000;
 
-const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "world",
-  password: "123",
-  port: 5432,
-});
 
-db.connect();
+const db = new Pool({
+  connectionString: process.env.POSTGRES_URL + "?sslmode=require",
+})
+
+db.connect((err)=>{
+  if (err) throw err;
+  console.log("Connected to database")
+})
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
