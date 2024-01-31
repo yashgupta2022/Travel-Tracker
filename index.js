@@ -51,11 +51,11 @@ app.get("/", async (req, res) => {
   const countries = await checkVisisted();
   const currentUser = await getCurrentUser();
   if (users.length === 0) {
-    res.render("new.ejs");
+    res.render("new");
   }
   
   else{
-    res.render("index.ejs", {
+    res.render("index", {
       countries: countries,
       total: countries.length,
       users: users,
@@ -94,7 +94,7 @@ app.post("/add", async (req, res) => {
 
 app.post("/user", async (req, res) => {
   if (req.body.add === "new") {
-    res.render("new.ejs");
+    res.render("new");
   } else {
     currentUserId = req.body.user;
     res.redirect("/");
