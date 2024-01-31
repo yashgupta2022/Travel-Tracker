@@ -1,10 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
+import pg from 'pg';
 const app = express();
 require("dotenv").config();
 const port = process.env.PORT || 3000;
 
-const { Pool } = require('pg')
+
+const { Pool } = pg;
 const db = new Pool({
   connectionString: process.env.POSTGRES_URL + "?sslmode=require",
 })
