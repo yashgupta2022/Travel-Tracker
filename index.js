@@ -1,5 +1,6 @@
 import express from "express";
-import path from "path";
+import path from 'path';
+import { fileURLToPath } from 'url';
 import bodyParser from "body-parser";
 import pg from 'pg';
 import {} from 'dotenv/config';
@@ -17,10 +18,14 @@ db.connect((err)=>{
   console.log("Connected to database")
 })
 
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static("public"));
+
 
 let currentUserId = 1;
 
